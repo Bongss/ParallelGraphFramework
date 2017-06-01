@@ -53,7 +53,7 @@ public class Node extends TIntArrayList
     public int getWeight(int neighborNodeId)
     {
         int pos = binarySearch(neighborNodeId);
-        return weights.get(neighborNodeId);
+        return weights.get(pos);
     }
 
     public int neighborListSize()

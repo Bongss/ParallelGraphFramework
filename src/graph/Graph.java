@@ -152,7 +152,7 @@ public class Graph<T>
     // TODO : need sortFlag
     public void loadFinalize(int asyncThreshold, Class<T> sharedDataObjectClass)
     {
-        adjListSort(asyncThreshold);
+//        adjListSort(asyncThreshold);
 
         int nodeCapacity = maxNodeId + 1;
         int taskSize = 1 << expOfTaskSize;

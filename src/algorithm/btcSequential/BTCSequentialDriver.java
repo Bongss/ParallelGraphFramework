@@ -1,41 +1,54 @@
 package algorithm.btcSequential;
 
+import gnu.trove.list.array.TIntArrayList;
 import graph.Graph;
 import graph.Node;
-import graph.sharedData.SSSPSharedData;
+import graph.sharedData.BTCSharedData;
 
-import java.util.LinkedList;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class BTCSequentialDriver {
-    Graph<SSSPSharedData> graph;
+    Graph<BTCSharedData> graph;
     PriorityQueue<Integer> activeQueue;
-    LinkedList<Integer> predList;
+    TIntArrayList[] predList;
     Stack<Integer> stack;
-    int[] BC;
-    int[] BCPartValues;
     double[] dist;
     int[] spCounts;
-
+    double [] BCValues;                               // Betweenness and Centrality Value
+    double [] BCPartValues;                           // Dependency Value
     final int maxNodeId;
 
-    public BTCSequentialDriver(Graph<SSSPSharedData> graph) {
+    public BTCSequentialDriver(Graph<BTCSharedData> graph) {
         this.graph = graph;
         this.maxNodeId = graph.getMaxNodeId();
         dist = new double[maxNodeId + 1];
-        BC = new int[maxNodeId + 1];
-        BCPartValues = new int[maxNodeId + 1];
+        spCounts = new int[maxNodeId + 1];
+        BCValues = new double[maxNodeId + 1];
+        BCPartValues = new double[maxNodeId + 1];
+
+        activeQueue = new PriorityQueue<>(new Comparator<Integer>()
+        {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return (int) (dist[o1] - dist[o2]);
+            }
+        });
+
+        predList = new TIntArrayList[maxNodeId + 1];
+        stack = new Stack<>();
 
         for (int i = 0; i <= maxNodeId; i++) {
-            dist[i] = -1;
+            dist[i] = Double.POSITIVE_INFINITY;
+            predList[i] = new TIntArrayList();
         }
     }
 
-    public void run(int sourceId) {
-        dist[sourceId] = 0;
-        spCounts[sourceId] = 1;
-        activeQueue.add(sourceId);
+    public void run(int startId) {
+        dist[startId] = 0;
+        spCounts[startId] = 1;
+        activeQueue.add(startId);
 
         while (activeQueue.size() != 0) {
             int srcId = activeQueue.poll();     // visited
@@ -53,12 +66,12 @@ public class BTCSequentialDriver {
 
         while (!stack.empty()) {
             int w = stack.pop();
-            while (!predList.isEmpty()) {
-                int v = predList.pop();
-                BCPartValues[v] = BCPartValues[v] + ((spCounts[v] / spCounts[w]) * (1 + BCPartValues[w]));
+            while (predList[w].size() != 0) {
+                int v = predList[w].removeAt(0);
+                BCPartValues[v] = BCPartValues[v] + ((spCounts[v] / (double) spCounts[w]) * (1 + BCPartValues[w]));
             }
-            if (w != sourceId) {
-                BC[w] = BC[w] + BCPartValues[w];
+            if (w != startId) {
+                BCValues[w] = BCValues[w] + BCPartValues[w];
             }
         }
     }
@@ -66,15 +79,29 @@ public class BTCSequentialDriver {
     public void relax(int srcId, int destId, int weight) {
         if (dist[destId] > dist[srcId] + weight) {
             dist[destId] = dist[srcId] + weight;
-            activeQueue.add(destId);
+            if (!activeQueue.contains(destId)) {
+                activeQueue.add(destId);
+            }
 
             spCounts[destId] = spCounts[srcId];
-            predList.clear();
-            predList.add(srcId);
+            predList[destId].clear();
+            predList[destId].add(srcId);
         } else if (dist[destId] == dist[srcId] + weight) {
-            predList.add(srcId);
-            spCounts[destId]++;
+            predList[destId].add(srcId);
+            spCounts[destId] = spCounts[srcId] + spCounts[destId];
         }
+    }
+
+    public double[] getDistances() {
+        return dist;
+    }
+
+    public int[] getSpCounts() {
+        return spCounts;
+    }
+
+    public double[] getBCValues() {
+        return BCValues;
     }
 }
 

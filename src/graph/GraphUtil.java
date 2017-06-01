@@ -24,7 +24,7 @@ public class GraphUtil {
             throws IOException {
         String line;
         while ((line = reader.readLine()) != null) {
-            String[] nodeId = line.trim().split("\t");
+            String[] nodeId = line.trim().split("\\s+");
             int srcNodeId = Integer.parseInt(nodeId[0]);
             int destNodeId = Integer.parseInt(nodeId[1]);
 
