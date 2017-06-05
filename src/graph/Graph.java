@@ -150,16 +150,18 @@ public class Graph<T>
 
     // The following part is related to SharedData
     // TODO : need sortFlag
-    public void loadFinalize(int asyncThreshold, Class<T> sharedDataObjectClass)
+    public void loadFinalize(int asyncThreshold, Class<T> sharedDataObjectClass, boolean isSorted)
     {
-//        adjListSort(asyncThreshold);
+        if (isSorted) {
+            adjListSort(asyncThreshold);
+        }
 
         int nodeCapacity = maxNodeId + 1;
         int taskSize = 1 << expOfTaskSize;
         numTasks = (nodeCapacity + taskSize - 1) / taskSize;
 
         if (sharedDataObjectClass == BFSSharedData.class) {
-            sharedDataObject = (T) new BFSSharedData(nodeCapacity, asyncThreshold);
+            sharedDataObject = (T) new BFSSharedData(nodeCapacity, numTasks);
         }
         else if (sharedDataObjectClass == PageRankSharedData.class) {
             sharedDataObject = (T) new PageRankSharedData(nodeCapacity, asyncThreshold);

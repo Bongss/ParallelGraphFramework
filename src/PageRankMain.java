@@ -14,6 +14,7 @@ public class PageRankMain
     {
         final boolean isDirected = true;
         final boolean isWeighted = false;
+        final boolean isInDegreeSorted = true;
 
         String inputFile = args[0];
         int numThreads = Integer.parseInt(args[1]);
@@ -29,7 +30,7 @@ public class PageRankMain
         long start = System.currentTimeMillis();
         System.err.println("[DEBUG] Graph Loading... ");
         GraphUtil.load(graph, inputFile);
-        graph.loadFinalize(asyncThreshold, PageRankSharedData.class);
+        graph.loadFinalize(asyncThreshold, PageRankSharedData.class, isInDegreeSorted);
         System.err.println("[DEBUG] Loading Time : " + (System.currentTimeMillis() - start) / 1000.0);
 
         PageRankDriver driver = new PageRankDriver(graph, dampingFactor, iteration, numThreads);

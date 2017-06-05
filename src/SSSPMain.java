@@ -5,11 +5,14 @@ import graph.sharedData.SSSPSharedData;
 
 import java.util.concurrent.BrokenBarrierException;
 
-public class SSSPMain {
-    public static void main(String[] args)
-            throws BrokenBarrierException, InterruptedException {
+public class SSSPMain
+{
+    public static void main(String[] args) throws BrokenBarrierException, InterruptedException
+    {
         final boolean isDirected = true;
         final boolean isWeighted = true;
+        final boolean isInDegreeSorted = true;
+
         String inputFile = args[0];
         int numThreads = Integer.parseInt(args[1]);
         int delta = Integer.parseInt(args[2]);
@@ -24,7 +27,7 @@ public class SSSPMain {
         Graph<SSSPSharedData> graph = Graph.getInstance(expOfPartitionSize, isDirected, isWeighted);
         System.out.println("[DEBUG] Graph Loading ... ");
         GraphUtil.load(graph, inputFile);
-        graph.loadFinalize(asyncRangeSize, SSSPSharedData.class);
+        graph.loadFinalize(asyncRangeSize, SSSPSharedData.class, isInDegreeSorted);
 
         System.out.println("[DEBUG] Loading Time : " + (System.currentTimeMillis() - start) / 1000.0);
 

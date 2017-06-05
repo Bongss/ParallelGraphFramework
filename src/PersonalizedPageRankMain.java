@@ -13,6 +13,7 @@ public class PersonalizedPageRankMain
     public static void main(String[] args) throws InterruptedException, BrokenBarrierException {
         final boolean isDirected = true;
         final boolean isWeighted = false;
+        final boolean isInDegreeSorted = true;
 
         String inputFile = args[0];
         int numThreads = Integer.parseInt(args[1]);
@@ -30,7 +31,7 @@ public class PersonalizedPageRankMain
         long start = System.currentTimeMillis();
         System.err.println("[DEBUG] Graph Loading... ");
         GraphUtil.load(graph, inputFile);
-        graph.loadFinalize(asyncThreshold, PersonalPageRankSharedData.class);
+        graph.loadFinalize(asyncThreshold, PersonalPageRankSharedData.class, isInDegreeSorted);
         System.err.println("[DEBUG] Loading Time : " + (System.currentTimeMillis() - start) / 1000.0);
 
         PersonalPageRankDriver driver = new PersonalPageRankDriver(graph, dampingFactor, iteration, numThreads, seedFile, numSeeds);

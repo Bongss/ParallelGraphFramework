@@ -5,12 +5,15 @@ import graph.sharedData.WCCSharedData;
 
 import java.util.concurrent.BrokenBarrierException;
 
-public class WCCMain {
-    public static void main(String[] args)
-            throws BrokenBarrierException, InterruptedException {
+public class WCCMain
+{
+    public static void main(String[] args) throws BrokenBarrierException, InterruptedException
+    {
 
         final boolean isDirected = false;
         final boolean isWeighted = false;
+        final boolean isInDegreeSorted = true;
+
         String inputFile = args[0];
         int numThreads = Integer.parseInt(args[1]);
         int asyncThreshold = Integer.parseInt(args[2]);
@@ -25,7 +28,8 @@ public class WCCMain {
         System.out.println("[DEBUG] ASYNC_THREASHOLD : " + asyncThreshold);
         if (asyncThreshold <= 0) {
             System.out.println("[DEBUG] ASYNC");
-        } else {
+        }
+        else {
             System.out.println("[DEBUG] ATOMIC");
         }
         Graph<WCCSharedData> graph = Graph.getInstance(expOfTaskSize, isDirected, isWeighted);
@@ -33,7 +37,7 @@ public class WCCMain {
         long start = System.currentTimeMillis();
         System.out.println("[DEBUG] Graph Loading ... ");
         GraphUtil.load(graph, inputFile);
-        graph.loadFinalize(asyncThreshold, WCCSharedData.class);
+        graph.loadFinalize(asyncThreshold, WCCSharedData.class, isInDegreeSorted);
         long loadingTime = System.currentTimeMillis() - start;
 
         System.out.println("[DEBUG] Loading Time : " + ((double) loadingTime / 1000.0));

@@ -15,6 +15,7 @@ public class SeedSetGenMain
         final boolean isDirected = true;
         final boolean isWeighted = false;
 
+
         String inputFile = args[0];
         String outputFile = args[1];
         int numSeeds = Integer.parseInt(args[2]);
