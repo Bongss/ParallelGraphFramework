@@ -7,23 +7,28 @@ public class BFSSequentialMain
 {
     public static void main(String[] args) {
         String inputFile = args[0];
+        String outputFile = args[1];
 
         Graph<BFSSharedData> graph = Graph.getInstance(0,true,false);
-        System.out.println("[DEBUG] Graph Loading ...");
+        System.err.println("[DEBUG] Graph Loading ...");
         GraphUtil.load(graph, inputFile);
-        System.out.println("[DEBUG] Graph Complete");
+        System.err.println("[DEBUG] Graph Complete");
         graph.loadFinalize(0, BFSSharedData.class, false);
 
         BFSSequentialDriver driver = new BFSSequentialDriver(graph);
         driver.reset();
 
 
-        System.out.println("[DEBUG] BFS Start");
+        System.err.println("[DEBUG] BFS Start");
+        long start = System.currentTimeMillis();
         driver.run(0);
-        System.out.println("[DEBUG] BFS END");
-        System.out.println("[DEBUG] BFS Write ...");
-        driver.writeBFSValues("BFS_test.txt");
-        System.out.println("[DEBUG] END");
+        long elapsedTime = System.currentTimeMillis() - start;
+        System.err.println("[DEBUG] BFS END");
+        System.err.println("[DEBUG] BFS Write ...");
+        driver.writeBFSValues(outputFile);
+        System.err.println("[DEBUG] END");
+
+        System.out.println("[ELAPSED_TIME] : " + elapsedTime / 1000.0);
         System.exit(1);
     }
 }
