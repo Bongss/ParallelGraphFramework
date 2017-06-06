@@ -2,8 +2,8 @@ package graph.sharedData;
 
 public class BFSSharedData
 {
-    volatile int[] levels;
-    volatile int[] taskLevels;
+    int[] levels;
+    int[] taskLevels;
     volatile int bfsCurrentLevel;
 
     final int nodeCapacity;
@@ -41,7 +41,7 @@ public class BFSSharedData
 
     public boolean checkTaskLevels(int taskId, int level)
     {
-        return taskLevels[taskId] == level;
+        return taskLevels[taskId] >= level;
     }
 
     public final void incrementBFSLevel()

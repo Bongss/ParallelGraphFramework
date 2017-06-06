@@ -32,8 +32,8 @@ public class BFSMain
         double timeSum = 0;
 
         System.err.println("[DEBUG] BFS Running ... ");
-        final int numRun = 1;
-        final int jitRun = 0;
+        final int numRun = 15;
+        final int jitRun = 5;
         long[] elapsedTime = new long[numRun];
         for (int i = 0; i < numRun; i++) {
             driver.reset();

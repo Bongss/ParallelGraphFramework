@@ -84,7 +84,6 @@ public class BFSDriver
             runBarrierOnce(barrierTasks);
             barriers.await();
             sharedDataObject.incrementBFSLevel();
-            System.out.println("LEVEL : " + sharedDataObject.getCurrentBFSLevel());
         }
     }
 
