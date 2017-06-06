@@ -5,55 +5,33 @@ import graph.GraphAlgorithmInterface;
 import graph.Node;
 import graph.sharedData.WCCSharedData;
 
-public class WCCExecutor implements GraphAlgorithmInterface
-{
+public class WCCExecutor implements GraphAlgorithmInterface {
     final Graph<WCCSharedData> graph;
     final WCCSharedData sharedDataObject;
     final int beginRange;
     final int endRange;
-//    final int threshold;
-    final int numCheck;
-    static boolean isFront;
 
-    public WCCExecutor(int beginRange, int endRange, Graph<WCCSharedData> graph, int numPart, int numCheck) {
-        this.graph = graph;
+    public WCCExecutor(int beginRange, int endRange, Graph<WCCSharedData> graph) {
         this.beginRange = beginRange;
         this.endRange = endRange;
-        this.numCheck = numCheck;
+        this.graph = graph;
         sharedDataObject = graph.getSharedDataObject();
-
-        isFront = true;
-//        threshold = numPart * partitionSize;
     }
 
     @Override
     public void execute() {
         int epoch = WCCDriver.getCurrentEpoch();
-//        if (epoch == 1) System.out.println("[DEBUG] Threshold : " + threshold);
-
         for (int i = beginRange; i < endRange; i++) {
             Node srcNode = graph.getNode(i);
 
             if (srcNode == null) {
                 continue;
             }
-            int srcInDegree = srcNode.getInDegree();
+
+            int thresholdIndex = srcNode.getThresholdIndex();
 
             int curCompId = sharedDataObject.getCurCompId(i);
-            int nextCompId = sharedDataObject.getNextCompId(srcInDegree, i);
-
-            if (isFront) {
-                if (nextCompId != 0) {
-                    continue;
-                }
-//                if (nextCompId > threshold) continue;
-            }
-            else {
-                if (nextCompId == 0) {
-                    continue;
-                }
-//                if (nextCompId <= threshold) continue;
-            }
+            int nextCompId = sharedDataObject.getNextCompId(i);
 
             if (curCompId == nextCompId) {
                 continue;
@@ -63,31 +41,23 @@ public class WCCExecutor implements GraphAlgorithmInterface
 
             int neighborListSize = srcNode.neighborListSize();
 
-            boolean updateFlag = false;
-            int check = 0;
             for (int j = 0; j < neighborListSize; j++) {
-                int destId = srcNode.getNeighbor(j);                                            // 3% (256)     4% (4096)   4%(65536)
-                int destTaskId = graph.getTaskId(destId); // bit remain operation
+                int destId = srcNode.getNeighbor(j);
+                int destTaskId = graph.getTaskId(destId);
 
                 if (destId <= nextCompId) {
                     continue;
                 }
 
-//                WCCDriver.incBefore();
-                int destInDegree = graph.getNode(destId).getInDegree();
-                if (sharedDataObject.update(destInDegree, destId, nextCompId)) { //destPartition.update(destPosition, nextCompId)) {
-                    updateFlag = true;
-                    sharedDataObject.setUpdatedEpoch(destTaskId, epoch);
-//                    WCCDriver.incAfter();
-//                    destPartition.setUpdatedEpoch(epoch);
+                boolean isUpdate;
+                if (j < thresholdIndex) {
+                    isUpdate = sharedDataObject.atomicUpdate(destId, nextCompId);
+                } else {
+                    isUpdate = sharedDataObject.asyncUpdate(destId, nextCompId);
                 }
-                else {
-                    if (numCheck != -1 && !updateFlag) {
-                        check++;
-                        if (check >= numCheck) {
-                            break;
-                        }
-                    }
+
+                if (isUpdate) {
+                    sharedDataObject.setUpdatedEpoch(destTaskId, epoch);
                 }
             }
         }
@@ -96,9 +66,5 @@ public class WCCExecutor implements GraphAlgorithmInterface
     @Override
     public void reset() {
 
-    }
-
-    public static void setIsFront(boolean value) {
-        isFront = value;
     }
 }

@@ -6,38 +6,32 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class Node extends TIntArrayList
-{
+public class Node extends TIntArrayList {
     TIntArrayList weights = null;
     int thresholdIndex;
     int inDegree;
     int outDegree;
 
-    Node()
-    {
+    Node() {
         weights = new TIntArrayList(10);
     }
 
-    public boolean addNeighborId(int neighborNodeId)
-    {
+    public boolean addNeighborId(int neighborNodeId) {
         int pos = binarySearch(neighborNodeId);
         if (pos >= 0) {
             return false;
-        }
-        else {
+        } else {
             pos = -(pos + 1);
             insert(pos, neighborNodeId);
             return true;
         }
     }
 
-    public boolean addNeighborId(int neighborNodeId, int weight)
-    {
+    public boolean addNeighborId(int neighborNodeId, int weight) {
         int pos = binarySearch(neighborNodeId);
         if (pos >= 0) {
             return false;
-        }
-        else {
+        } else {
             pos = -(pos + 1);
             insert(pos, neighborNodeId);
             weights.insert(pos, weight);
@@ -45,47 +39,40 @@ public class Node extends TIntArrayList
         }
     }
 
-    public int getNeighbor(int neighborNodeIdx)
-    {
+    public int getNeighbor(int neighborNodeIdx) {
         return getQuick(neighborNodeIdx);
     }
 
-    public int getWeight(int neighborNodeId)
-    {
+    public int getWeight(int neighborNodeId) {
         int pos = binarySearch(neighborNodeId);
         return weights.get(pos);
     }
 
-    public int neighborListSize()
-    {
+    public int neighborListSize() {
         return this._pos;
     }
 
-    public void incrementInDegree()
-    {
+    public void incrementInDegree() {
         inDegree++;
     }
 
-    public void incrementOutDegree()
-    {
+    public void incrementOutDegree() {
         outDegree++;
     }
 
-    public int getInDegree()
-    {
+    public int getInDegree() {
         return inDegree;
     }
 
-    public int getOutDegree()
-    {
+    public int getOutDegree() {
         return outDegree;
     }
 
     public void setThresholdIndex(int index) {
         thresholdIndex = index;
     }
-    public int getThresholdIndex()
-    {
+
+    public int getThresholdIndex() {
         return thresholdIndex;
     }
 

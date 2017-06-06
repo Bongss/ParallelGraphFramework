@@ -2,8 +2,7 @@ package graph.sharedData;
 
 import atomic.AtomicIntegerArray;
 
-public class SSSPSharedData
-{
+public class SSSPSharedData {
     AtomicIntegerArray tables;
     AtomicIntegerArray bucketIds;
     volatile int[] innerIdx;
@@ -43,8 +42,7 @@ public class SSSPSharedData
             if (prevId == -1 || prevId > newId) {
                 bucketIds.asyncSet(entry, newId);
             }
-        }
-        else {
+        } else {
             do {
                 prevId = bucketIds.get(entry);
                 if (prevId != -1 && newId >= prevId) {
@@ -92,8 +90,7 @@ public class SSSPSharedData
     public final int getVertexValue(int degree, int entry) {
         if (degree < asyncThreshold) {
             return tables.asyncGet(entry);
-        }
-        else {
+        } else {
             return tables.get(entry);
         }
     }
@@ -107,8 +104,7 @@ public class SSSPSharedData
                 return true;
             }
             return false;
-        }
-        else {
+        } else {
             do {
                 currDist = tables.get(entry);
                 if (newDist >= currDist) {
@@ -119,7 +115,6 @@ public class SSSPSharedData
             return true;
         }
     }
-
 
 
     public void reset() {

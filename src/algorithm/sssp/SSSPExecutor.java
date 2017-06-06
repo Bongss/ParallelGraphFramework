@@ -6,8 +6,7 @@ import graph.GraphAlgorithmInterface;
 import graph.Node;
 import graph.sharedData.SSSPSharedData;
 
-public class SSSPExecutor implements GraphAlgorithmInterface
-{
+public class SSSPExecutor implements GraphAlgorithmInterface {
 
     Graph<SSSPSharedData> graph;
     SSSPSharedData sharedDataObject;
@@ -60,8 +59,7 @@ public class SSSPExecutor implements GraphAlgorithmInterface
         if (!isHeavy) {
             edges = lightEdges[nodeId];
             weights = lightWeights[nodeId];
-        }
-        else {
+        } else {
             edges = heavyEdges[nodeId];
             weights = heavyWeights[nodeId];
         }
@@ -78,7 +76,7 @@ public class SSSPExecutor implements GraphAlgorithmInterface
             int destTaskId = graph.getTaskId(destId);
             int destInDegree = graph.getNode(destId).getInDegree();
             int newDist = myDist + weights.getQuick(i);
-            boolean updated = sharedDataObject.update(destInDegree,destId, newDist);
+            boolean updated = sharedDataObject.update(destInDegree, destId, newDist);
 
             //            SSSPDriver.incBefore();
             if (updated) {
@@ -90,8 +88,7 @@ public class SSSPExecutor implements GraphAlgorithmInterface
                 if (newBucketId == bucketIdx) {
                     sharedDataObject.setInnerIdx(destTaskId, InnerIdx);
                 }
-            }
-            else {
+            } else {
                 if (numCheck != -1 && !updateFlag) {
                     check++;
                     if (check >= numCheck) {

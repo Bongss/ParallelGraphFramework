@@ -123,8 +123,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
     private static sun.misc.Unsafe getUnsafe() {
         try {
             return sun.misc.Unsafe.getUnsafe();
-        }
-        catch (SecurityException se) {
+        } catch (SecurityException se) {
             try {
                 return java.security.AccessController.doPrivileged(new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
                     public sun.misc.Unsafe run()
@@ -134,8 +133,7 @@ public class AtomicDoubleArray implements java.io.Serializable {
                         return (sun.misc.Unsafe) f.get(null);
                     }
                 });
-            }
-            catch (java.security.PrivilegedActionException e) {
+            } catch (java.security.PrivilegedActionException e) {
                 throw new RuntimeException("Could not initialize intrinsics", e.getCause());
             }
         }

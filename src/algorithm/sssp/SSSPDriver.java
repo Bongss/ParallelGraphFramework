@@ -18,8 +18,7 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class SSSPDriver
-{
+public class SSSPDriver {
     final int numThreads;
     final int delta;
     final int numCheck;
@@ -107,8 +106,7 @@ public class SSSPDriver
                 if (weight > exp_delta) {
                     heavyEdges[i].add(destId);
                     heavyWeights[i].add(weight);
-                }
-                else {
+                } else {
                     lightEdges[i].add(destId);
                     lightWeights[i].add(weight);
                 }
@@ -190,8 +188,7 @@ public class SSSPDriver
                 }
                 out.println(i + "," + dist);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
     }
@@ -251,8 +248,7 @@ public class SSSPDriver
     public boolean isLightEdgesDone(int taskId) {
         if (sharedDataObject.getInnerIdx(taskId) >= (innerIdx - 1)) {
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }

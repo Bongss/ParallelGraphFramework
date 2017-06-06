@@ -7,11 +7,11 @@ import java.util.concurrent.CyclicBarrier;
 
 public class BarrierTask implements GraphAlgorithmInterface {
     CyclicBarrier barriers;
-    
+
     public BarrierTask(CyclicBarrier barrier) {
         this.barriers = barrier;
     }
-    
+
     @Override
     public void execute() {
         try {
@@ -22,9 +22,9 @@ public class BarrierTask implements GraphAlgorithmInterface {
 
         }
     }
-    
+
     @Override
     public void reset() {
-        
+
     }
 }

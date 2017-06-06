@@ -1,14 +1,13 @@
 package atomic;
+
 /**
- *
- *
  * A {@code byte} array in which elements may be updated atomically.
  * See the {@link java.util.concurrent.atomic} package
  * specification for description of the properties of atomic
  * variables.
- *
+ * <p>
  * This is an adaptation of Java's AtomicIntegerArray for bytes.
- *
+ * <p>
  * Four bytes are packed into each int.
  * Only a few methods are implemented for now.
  *
@@ -32,7 +31,7 @@ public class AtomicByteArray {
     /**
      * Sets the element at position {@code i} to the given value.
      *
-     * @param i the index
+     * @param i        the index
      * @param newValue the new value
      */
     public void set(int i, byte newValue) {
@@ -54,7 +53,7 @@ public class AtomicByteArray {
      * Atomically sets the element at position {@code i} to the given
      * updated value if the current value {@code ==} the expected value.
      *
-     * @param i the index
+     * @param i      the index
      * @param expect the expected value
      * @param update the new value
      * @return true if successful. False return indicates that
@@ -104,7 +103,7 @@ public class AtomicByteArray {
     /**
      * Atomically adds the given value to the element at index {@code i}.
      *
-     * @param i the index
+     * @param i     the index
      * @param delta the value to add
      * @return the previous value
      */
@@ -140,7 +139,7 @@ public class AtomicByteArray {
     /**
      * Atomically adds the given value to the element at index {@code i}.
      *
-     * @param i the index
+     * @param i     the index
      * @param delta the value to add
      * @return the updated value
      */

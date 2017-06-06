@@ -2,12 +2,11 @@ import algorithm.bfs.BFSDriver;
 import graph.Graph;
 import graph.GraphUtil;
 import graph.sharedData.BFSSharedData;
+
 import java.util.concurrent.BrokenBarrierException;
 
-public class BFSMain
-{
-    public static void main(String[] args) throws InterruptedException, BrokenBarrierException
-    {
+public class BFSMain {
+    public static void main(String[] args) throws InterruptedException, BrokenBarrierException {
         final boolean isDirected = true;
         final boolean isWeighted = false;
         final boolean isInDegreeSorted = false;

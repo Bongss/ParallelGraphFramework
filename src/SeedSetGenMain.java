@@ -9,8 +9,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Random;
 
-public class SeedSetGenMain
-{
+public class SeedSetGenMain {
     public static void main(String[] args) {
         final boolean isDirected = true;
         final boolean isWeighted = false;
@@ -58,8 +57,7 @@ public class SeedSetGenMain
             for (int i = 0; i < numSeeds; i++) {
                 out.println(seedSet[i]);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
     }

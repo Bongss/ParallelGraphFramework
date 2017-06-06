@@ -5,13 +5,11 @@ import graph.sharedData.PageRankSharedData;
 
 import java.util.concurrent.BrokenBarrierException;
 
-public class PageRankMain
-{
+public class PageRankMain {
     /**
      * USER : Set the PageRank Configuration
      **/
-    public static void main(String[] args) throws InterruptedException, BrokenBarrierException
-    {
+    public static void main(String[] args) throws InterruptedException, BrokenBarrierException {
         final boolean isDirected = true;
         final boolean isWeighted = false;
         final boolean isInDegreeSorted = true;

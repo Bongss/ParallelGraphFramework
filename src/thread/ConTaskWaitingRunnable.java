@@ -4,8 +4,7 @@ import task.Task;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class ConTaskWaitingRunnable implements Runnable
-{
+public class ConTaskWaitingRunnable implements Runnable {
     ConcurrentLinkedQueue<Task> taskQueue;
 
     public ConTaskWaitingRunnable(ConcurrentLinkedQueue<Task> taskQueue) {

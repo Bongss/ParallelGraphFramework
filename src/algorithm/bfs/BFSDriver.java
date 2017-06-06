@@ -15,8 +15,7 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class BFSDriver
-{
+public class BFSDriver {
     int numThreads;
     int numTasks;
     int taskSize;
@@ -31,8 +30,7 @@ public class BFSDriver
     Task[] workTasks;
     Task[] barrierTasks;
 
-    public BFSDriver(Graph<BFSSharedData> graph, int numThreads)
-    {
+    public BFSDriver(Graph<BFSSharedData> graph, int numThreads) {
         this.graph = graph;
         this.numThreads = numThreads;
 
@@ -44,8 +42,7 @@ public class BFSDriver
         init();
     }
 
-    public void init()
-    {
+    public void init() {
         workTasks = new Task[numTasks];
         barrierTasks = new Task[numThreads];
         barriers = new CyclicBarrier(numThreads + 1);
@@ -70,8 +67,7 @@ public class BFSDriver
         }
     }
 
-    public void run() throws BrokenBarrierException, InterruptedException
-    {
+    public void run() throws BrokenBarrierException, InterruptedException {
         boolean isTermination;
         After3level(0); // input : startNode Id, Sequential Process 1,2,3
         sharedDataObject.setCurrentBFSLevel(4);
@@ -87,8 +83,7 @@ public class BFSDriver
         }
     }
 
-    public boolean runWorkerOnce(Task[] tasks)
-    {
+    public boolean runWorkerOnce(Task[] tasks) {
         int nonActiveTaskCount = 0;
         final int curBFSLevel = sharedDataObject.getCurrentBFSLevel();
 
@@ -105,15 +100,13 @@ public class BFSDriver
         return false;
     }
 
-    public void runBarrierOnce(Task[] tasks)
-    {
+    public void runBarrierOnce(Task[] tasks) {
         for (int i = 0; i < tasks.length; i++) {
             taskQueue.offer(tasks[i]);
         }
     }
 
-    public void After3level(int startNodeId)
-    {
+    public void After3level(int startNodeId) {
         sharedDataObject.setVertexValue(startNodeId, 1);
         //need set the start
         TIntLinkedListQueue activeQueue = new TIntLinkedListQueue();
@@ -145,26 +138,22 @@ public class BFSDriver
         }
     }
 
-    public void writeBFSValues(String outputFile)
-    {
+    public void writeBFSValues(String outputFile) {
         try (FileWriter fw = new FileWriter(outputFile, false); BufferedWriter bw = new BufferedWriter(fw); PrintWriter out = new PrintWriter(bw)) {
             for (int i = 0; i < nodeCapacity; i++) {
                 Node node = graph.getNode(i);
                 if (node != null) {
                     out.println(sharedDataObject.getVertexValue(i));
-                }
-                else {
+                } else {
                     out.println(-1);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
     }
 
-    public void reset()
-    {
+    public void reset() {
         sharedDataObject.reset();
     }
 }

@@ -2,8 +2,7 @@ package graph.sharedData;
 
 import atomic.AtomicIntegerArray;
 
-public class WCCSharedData
-{
+public class WCCSharedData {
     AtomicIntegerArray nextCompIds;
     int[] curCompIds;
     volatile int[] updatedEpochs;
@@ -39,40 +38,28 @@ public class WCCSharedData
         return updatedEpochs[taskId];
     }
 
-    public int getNextCompId(int degree, int entry) {
-        if (degree < asyncThreshold) {
-            return nextCompIds.asyncGet(entry);
-        }
-        else {
-            return nextCompIds.get(entry);
-        }
+    public int getNextCompId(int entry) {
+        return nextCompIds.asyncGet(entry);
     }
 
-    public final boolean update(int degree, int entry, int value) {
-        int prev;
-        if (degree < asyncThreshold) { // TODO : think about multiple ranges in a single sharedData
-            prev = nextCompIds.asyncGet(entry);
+    public final boolean atomicUpdate(int entry, int value) {
+        int prev = nextCompIds.get(entry);
+        do {
             if (prev <= value) {
                 return false;
             }
-            nextCompIds.asyncSet(entry, value);
-            return true;
         }
-        else {
-            do {
-                prev = nextCompIds.get(entry);
-
-                if (prev <= value) {
-                    return false;
-                }
-            }
-            while (!nextCompIds.compareAndSet(entry, prev, value));
-            return true;
-        }
+        while (!nextCompIds.compareAndSet(entry, prev, value));
+        return true;
     }
 
-    public boolean compareCompIds(int prev, int value) {
-        return prev > value;
+    public final boolean asyncUpdate(int entry, int value) {
+        int prev = nextCompIds.asyncGet(entry);
+        if (prev <= value) {
+            return false;
+        }
+        nextCompIds.asyncSet(entry, value);
+        return true;
     }
 
     public void setCurComponentId(int pos, int value) {

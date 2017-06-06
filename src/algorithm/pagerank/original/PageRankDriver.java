@@ -21,8 +21,7 @@ import java.util.function.DoubleBinaryOperator;
 /**
  * PageRank Algorithm Implementation
  **/
-public class PageRankDriver
-{
+public class PageRankDriver {
     int numThreads;
     int numTasks;
     int taskSize;
@@ -43,8 +42,7 @@ public class PageRankDriver
     Task[] barrierTasks;
     Task[] exitBarrierTasks;
 
-    public PageRankDriver(Graph<PageRankSharedData> graph, double dampingFactor, int iteration, int numThreads)
-    {
+    public PageRankDriver(Graph<PageRankSharedData> graph, double dampingFactor, int iteration, int numThreads) {
         this.graph = graph;
         this.dampingFactor = dampingFactor;
         this.numThreads = numThreads;
@@ -56,8 +54,7 @@ public class PageRankDriver
         init();
     }
 
-    public void init()
-    {
+    public void init() {
         updateFunction = (prev, value) -> prev + value;
         PageRankSharedData.setUpdateFunction(updateFunction);
 
@@ -92,8 +89,7 @@ public class PageRankDriver
         }
     }
 
-    public void run() throws BrokenBarrierException, InterruptedException
-    {
+    public void run() throws BrokenBarrierException, InterruptedException {
         boolean isFirst = true;
         for (int i = 0; i < iteration; i++) {
             pushTasks(initTasks);
@@ -110,43 +106,37 @@ public class PageRankDriver
         exitBarriers.await();
     }
 
-    public void pushTasks(Task[] tasks)
-    {
+    public void pushTasks(Task[] tasks) {
         for (int i = 0; i < tasks.length; i++) {
             taskQueue.add(tasks[i]);
         }
     }
 
     //For JIT Test
-    public void reset()
-    {
+    public void reset() {
         for (int i = 0; i < initTasks.length; i++) {
             initTasks[i].reset();
         }
         sharedDataObject.reset();
     }
 
-    public void writePageRanks(String outputFile)
-    {
+    public void writePageRanks(String outputFile) {
         try (FileWriter fw = new FileWriter(outputFile, false); BufferedWriter bw = new BufferedWriter(fw); PrintWriter out = new PrintWriter(bw)) {
             sharedDataObject.initializedCallback();
             for (int j = 0; j < nodeCapacity; j++) {
                 Node node = graph.getNode(j);
                 if (node != null) {
                     out.println(sharedDataObject.getVertexValue(j));
-                }
-                else {
+                } else {
                     out.println(-1);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
     }
 
-    public double _printPageRankSum()
-    {
+    public double _printPageRankSum() {
         ArrayList<Double> pageRankValues = new ArrayList<>();
         double sum = 0.0d;
 
@@ -168,8 +158,7 @@ public class PageRankDriver
         return sum;
     }
 
-    public double[] _getPageRank(int[] sampleData)
-    {
+    public double[] _getPageRank(int[] sampleData) {
         double[] pageRank = new double[sampleData.length];
 
         for (int i = 0; i < sampleData.length; i++) {

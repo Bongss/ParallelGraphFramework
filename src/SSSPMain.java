@@ -5,10 +5,8 @@ import graph.sharedData.SSSPSharedData;
 
 import java.util.concurrent.BrokenBarrierException;
 
-public class SSSPMain
-{
-    public static void main(String[] args) throws BrokenBarrierException, InterruptedException
-    {
+public class SSSPMain {
+    public static void main(String[] args) throws BrokenBarrierException, InterruptedException {
         final boolean isDirected = true;
         final boolean isWeighted = true;
         final boolean isInDegreeSorted = true;

@@ -9,8 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class BellmanFordDriver
-{
+public class BellmanFordDriver {
     Graph<SSSPSharedData> graph;
     double[] dist;
 
@@ -57,8 +56,7 @@ public class BellmanFordDriver
                 String distance = String.format("%.2f", dist[i]);
                 out.println(i + " " + distance);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
 

@@ -1,5 +1,4 @@
-public class BellmanFordMain
-{
+public class BellmanFordMain {
     public static void main(String[] args) {
         String inputFile = args[0];
 

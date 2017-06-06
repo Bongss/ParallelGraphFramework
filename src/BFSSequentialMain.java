@@ -3,13 +3,12 @@ import graph.Graph;
 import graph.GraphUtil;
 import graph.sharedData.BFSSharedData;
 
-public class BFSSequentialMain
-{
+public class BFSSequentialMain {
     public static void main(String[] args) {
         String inputFile = args[0];
         String outputFile = args[1];
 
-        Graph<BFSSharedData> graph = Graph.getInstance(0,true,false);
+        Graph<BFSSharedData> graph = Graph.getInstance(0, true, false);
         System.err.println("[DEBUG] Graph Loading ...");
         GraphUtil.load(graph, inputFile);
         System.err.println("[DEBUG] Graph Complete");

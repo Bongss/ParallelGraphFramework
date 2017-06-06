@@ -5,8 +5,7 @@ import graph.GraphAlgorithmInterface;
 import graph.Node;
 import graph.sharedData.BFSSharedData;
 
-public class BFSExecutor implements GraphAlgorithmInterface
-{
+public class BFSExecutor implements GraphAlgorithmInterface {
 
     Graph<BFSSharedData> graph;
     BFSSharedData sharedDataObject;
@@ -14,8 +13,7 @@ public class BFSExecutor implements GraphAlgorithmInterface
     final int beginRange;
     final int endRange;
 
-    BFSExecutor(int beginRange, int endRange, Graph<BFSSharedData> graph)
-    {
+    BFSExecutor(int beginRange, int endRange, Graph<BFSSharedData> graph) {
         this.graph = graph;
         this.beginRange = beginRange;
         this.endRange = endRange;
@@ -23,8 +21,7 @@ public class BFSExecutor implements GraphAlgorithmInterface
     }
 
     @Override
-    public void execute()
-    {
+    public void execute() {
         final int currentLevel = sharedDataObject.getCurrentBFSLevel();
         for (int i = beginRange; i < endRange; i++) {
             if (sharedDataObject.getVertexValue(i) == currentLevel) {
@@ -47,8 +44,7 @@ public class BFSExecutor implements GraphAlgorithmInterface
     }
 
     @Override
-    public void reset()
-    {
+    public void reset() {
 
     }
 }

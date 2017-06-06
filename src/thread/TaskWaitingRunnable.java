@@ -7,8 +7,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class TaskWaitingRunnable implements Runnable
-{
+public class TaskWaitingRunnable implements Runnable {
     LinkedBlockingQueue<Task> taskQueue;
 
     public TaskWaitingRunnable(LinkedBlockingQueue<Task> taskQueue) {
@@ -21,8 +20,7 @@ public class TaskWaitingRunnable implements Runnable
             Task task = null;
             try {
                 task = taskQueue.take();
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             task.run();

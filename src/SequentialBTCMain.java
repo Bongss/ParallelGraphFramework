@@ -9,7 +9,7 @@ public class SequentialBTCMain {
         boolean isDirected = true;
         boolean isWeighted = true;
 
-        Graph<BTCSharedData> graph = Graph.getInstance(0,isDirected, isWeighted);
+        Graph<BTCSharedData> graph = Graph.getInstance(0, isDirected, isWeighted);
         System.err.println("[DEBUG] Graph Loading ...");
         GraphUtil.load(graph, inputFile);
         System.err.println("[DEBUG] Graph Complete");

@@ -16,8 +16,8 @@ public class BTCSequentialDriver {
     Stack<Integer> stack;
     double[] dist;
     int[] spCounts;
-    double [] BCValues;                               // Betweenness and Centrality Value
-    double [] BCPartValues;                           // Dependency Value
+    double[] BCValues;                               // Betweenness and Centrality Value
+    double[] BCPartValues;                           // Dependency Value
     final int maxNodeId;
 
     public BTCSequentialDriver(Graph<BTCSharedData> graph) {
@@ -28,8 +28,7 @@ public class BTCSequentialDriver {
         BCValues = new double[maxNodeId + 1];
         BCPartValues = new double[maxNodeId + 1];
 
-        activeQueue = new PriorityQueue<>(new Comparator<Integer>()
-        {
+        activeQueue = new PriorityQueue<>(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
                 return (int) (dist[o1] - dist[o2]);

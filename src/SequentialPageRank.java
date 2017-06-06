@@ -6,13 +6,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-class Node
-{
+class Node {
     TIntArrayList neighborNodeList;
 }
 
-public class SequentialPageRank
-{
+public class SequentialPageRank {
     int numNodes = 4847571;
     int maxNodeId = 0;
     int iteration = 10;
@@ -23,12 +21,10 @@ public class SequentialPageRank
     int[] outDeg;
     Node[] nodes;
 
-    private SequentialPageRank()
-    {
+    private SequentialPageRank() {
     }
 
-    private void doPR(String inFile, String outFile) throws IOException
-    {
+    private void doPR(String inFile, String outFile) throws IOException {
         long start = System.currentTimeMillis();
 
         nodes = new Node[numNodes];
@@ -141,19 +137,16 @@ public class SequentialPageRank
             for (int i = 0; i <= maxNodeId; i++) {
                 if (nodes[i] != null) {
                     out.println(newPR[i]);
-                }
-                else {
+                } else {
                     out.println(-1);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
     }
 
-    static public void main(String[] args) throws IOException
-    {
+    static public void main(String[] args) throws IOException {
         SequentialPageRank pr = new SequentialPageRank();
         String inputFile = args[0];
         String outFile = args[1];

@@ -43,7 +43,7 @@ public class GraphUtil {
 
     public static void writeGraph(Graph graph, String fileName) {
         try (FileWriter fw = new FileWriter(fileName, true);
-                BufferedWriter bw = new BufferedWriter(fw); PrintWriter out = new PrintWriter(bw)) {
+             BufferedWriter bw = new BufferedWriter(fw); PrintWriter out = new PrintWriter(bw)) {
 
             int maxNodeId = graph.getMaxNodeId();
             for (int i = 0; i <= maxNodeId; i++) {

@@ -11,19 +11,17 @@ import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-public class DijkstraDriver
-{
+public class DijkstraDriver {
     Graph<SSSPSharedData> graph;
     PriorityQueue<Integer> activeQueue;
-    int [] dist;
+    int[] dist;
 
     final int source;
     final int maxNodeId;
 
     public DijkstraDriver(Graph<SSSPSharedData> graph, int source) {
         this.graph = graph;
-        activeQueue = new PriorityQueue<>(new Comparator<Integer>()
-        {
+        activeQueue = new PriorityQueue<>(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
                 return (int) (dist[o1] - dist[o2]);
@@ -72,8 +70,7 @@ public class DijkstraDriver
 //                out.println(i + " " + distance);
                 out.println(i + "," + dist[i]);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
 

@@ -5,8 +5,7 @@ import graph.GraphAlgorithmInterface;
 import graph.Node;
 import graph.sharedData.PersonalPageRankSharedData;
 
-public class PersonalPageRankExecutor implements GraphAlgorithmInterface
-{
+public class PersonalPageRankExecutor implements GraphAlgorithmInterface {
     Graph<PersonalPageRankSharedData> graph;
     PersonalPageRankSharedData sharedDataObject;
     Node srcNode;
@@ -15,8 +14,7 @@ public class PersonalPageRankExecutor implements GraphAlgorithmInterface
     final int endRange;
     final double dampingFactor;
 
-    PersonalPageRankExecutor(int beginRange, int endRange, Graph<PersonalPageRankSharedData> graph, double dampingFactor)
-    {
+    PersonalPageRankExecutor(int beginRange, int endRange, Graph<PersonalPageRankSharedData> graph, double dampingFactor) {
         this.graph = graph;
         this.beginRange = beginRange;
         this.endRange = endRange;
@@ -25,8 +23,7 @@ public class PersonalPageRankExecutor implements GraphAlgorithmInterface
     }
 
     @Override
-    public void execute()
-    {
+    public void execute() {
         for (int i = beginRange; i < endRange; i++) {
             srcNode = graph.getNode(i);
 
@@ -48,8 +45,7 @@ public class PersonalPageRankExecutor implements GraphAlgorithmInterface
                 int destId = srcNode.getNeighbor(j);
                 if (j < thresholdIndex) {
                     sharedDataObject.atomicUpdateNextTable(destId, scatterPageRank);
-                }
-                else {
+                } else {
                     sharedDataObject.asyncUpdateNextTable(destId, scatterPageRank);
                 }
             }
@@ -57,8 +53,7 @@ public class PersonalPageRankExecutor implements GraphAlgorithmInterface
     }
 
     @Override
-    public void reset()
-    {
+    public void reset() {
 
     }
 }

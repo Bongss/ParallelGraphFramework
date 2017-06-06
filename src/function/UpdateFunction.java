@@ -1,7 +1,6 @@
 package function;
 
 @FunctionalInterface
-public interface UpdateFunction
-{
+public interface UpdateFunction {
     void update();
 }

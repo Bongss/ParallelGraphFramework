@@ -5,8 +5,7 @@ import graph.sharedData.PersonalPageRankSharedData;
 
 import java.util.concurrent.BrokenBarrierException;
 
-public class PersonalizedPageRankMain
-{
+public class PersonalizedPageRankMain {
     /**
      * USER : Set the PageRank Configuration
      **/

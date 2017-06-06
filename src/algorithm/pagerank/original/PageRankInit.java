@@ -5,8 +5,7 @@ import graph.GraphAlgorithmInterface;
 import graph.Node;
 import graph.sharedData.PageRankSharedData;
 
-public class PageRankInit implements GraphAlgorithmInterface
-{
+public class PageRankInit implements GraphAlgorithmInterface {
     Graph<PageRankSharedData> graph;
     PageRankSharedData sharedDataObject;
 
@@ -17,8 +16,7 @@ public class PageRankInit implements GraphAlgorithmInterface
     double nextValue;
     boolean isFirst;
 
-    PageRankInit(int beginRange, int endRange, Graph<PageRankSharedData> graph, double dampingFactor)
-    {
+    PageRankInit(int beginRange, int endRange, Graph<PageRankSharedData> graph, double dampingFactor) {
         this.graph = graph;
         this.dampingFactor = dampingFactor;
         this.beginRange = beginRange;
@@ -31,12 +29,10 @@ public class PageRankInit implements GraphAlgorithmInterface
     }
 
     @Override
-    public void execute()
-    {
+    public void execute() {
         if (!isFirst) {
             initialValue = nextValue;
-        }
-        else {
+        } else {
             initNextTable();
         }
 
@@ -52,8 +48,7 @@ public class PageRankInit implements GraphAlgorithmInterface
         isFirst = false;
     }
 
-    public void initNextTable()
-    {
+    public void initNextTable() {
         for (int i = beginRange; i < endRange; i++) {
             Node node = graph.getNode(i);
             if (node == null) {
@@ -63,13 +58,11 @@ public class PageRankInit implements GraphAlgorithmInterface
         }
     }
 
-    public double getInitPageRankValue(double dampingFactor)
-    {
+    public double getInitPageRankValue(double dampingFactor) {
         return (1 - dampingFactor) / (double) graph.getNumNodes();
     }
 
-    public void reset()
-    {
+    public void reset() {
         isFirst = true;
         initialValue = getInitPageRankValue(0);
     }

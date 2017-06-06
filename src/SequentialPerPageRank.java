@@ -6,8 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-public class SequentialPerPageRank
-{
+public class SequentialPerPageRank {
     int numNodes = 4847571;
     int maxNodeId = 0;
     int iteration = 10;
@@ -18,12 +17,10 @@ public class SequentialPerPageRank
     int[] outDeg;
     Node[] nodes;
 
-    private SequentialPerPageRank()
-    {
+    private SequentialPerPageRank() {
     }
 
-    private void doPR(String inFile, String outFile, int[] seedSets) throws IOException
-    {
+    private void doPR(String inFile, String outFile, int[] seedSets) throws IOException {
         long start = System.currentTimeMillis();
 
         nodes = new Node[numNodes];
@@ -152,13 +149,11 @@ public class SequentialPerPageRank
             for (int i = 0; i <= maxNodeId; i++) {
                 if (nodes[i] != null) {
                     out.println(newPR[i]);
-                }
-                else {
+                } else {
                     out.println(-1);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
     }
@@ -173,15 +168,13 @@ public class SequentialPerPageRank
                 seedSet[i] = Integer.parseInt(seed);
                 i++;
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         Arrays.sort(seedSet);
     }
 
-    static public void main(String[] args) throws IOException
-    {
+    static public void main(String[] args) throws IOException {
         SequentialPerPageRank pr = new SequentialPerPageRank();
         String inputFile = args[0];
         String outFile = args[1];

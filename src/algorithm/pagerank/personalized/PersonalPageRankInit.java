@@ -5,8 +5,7 @@ import graph.GraphAlgorithmInterface;
 import graph.Node;
 import graph.sharedData.PersonalPageRankSharedData;
 
-public class PersonalPageRankInit implements GraphAlgorithmInterface
-{
+public class PersonalPageRankInit implements GraphAlgorithmInterface {
     Graph<PersonalPageRankSharedData> graph;
     PersonalPageRankSharedData sharedDataObject;
 
@@ -19,8 +18,7 @@ public class PersonalPageRankInit implements GraphAlgorithmInterface
     double randomTeleportValue;
     boolean isFirst;
 
-    PersonalPageRankInit(int beginRange, int endRange, Graph<PersonalPageRankSharedData> graph, double dampingFactor, int numSeeds)
-    {
+    PersonalPageRankInit(int beginRange, int endRange, Graph<PersonalPageRankSharedData> graph, double dampingFactor, int numSeeds) {
         this.graph = graph;
         this.dampingFactor = dampingFactor;
         this.beginRange = beginRange;
@@ -34,12 +32,10 @@ public class PersonalPageRankInit implements GraphAlgorithmInterface
     }
 
     @Override
-    public void execute()
-    {
+    public void execute() {
         if (!isFirst) {
             initialValue = randomTeleportValue;
-        }
-        else {
+        } else {
             initNextTable();
         }
 
@@ -58,8 +54,7 @@ public class PersonalPageRankInit implements GraphAlgorithmInterface
         isFirst = false;
     }
 
-    public void initNextTable()
-    {
+    public void initNextTable() {
         for (int i = beginRange; i < endRange; i++) {
             Node node = graph.getNode(i);
             if (node == null) {
@@ -74,13 +69,11 @@ public class PersonalPageRankInit implements GraphAlgorithmInterface
         }
     }
 
-    public double getInitPageRankValue(int numNodes, double dampingFactor)
-    {
+    public double getInitPageRankValue(int numNodes, double dampingFactor) {
         return (1 - dampingFactor) / (double) numNodes;
     }
 
-    public void reset()
-    {
+    public void reset() {
         isFirst = true;
         initialValue = getInitPageRankValue(numSeeds, 0);
     }

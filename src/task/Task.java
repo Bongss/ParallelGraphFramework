@@ -3,19 +3,19 @@ package task;
 import graph.GraphAlgorithmInterface;
 
 public class Task {
-	GraphAlgorithmInterface algorithm;
+    GraphAlgorithmInterface algorithm;
 
     public Task(GraphAlgorithmInterface algorithm) {
-		this.algorithm = algorithm;
+        this.algorithm = algorithm;
     }
 
     // For JIT Compiler
     public void reset() {
-		algorithm.reset();
-	}
-	
+        algorithm.reset();
+    }
+
     public void run() {
-		algorithm.execute();
+        algorithm.execute();
     }
 }
 

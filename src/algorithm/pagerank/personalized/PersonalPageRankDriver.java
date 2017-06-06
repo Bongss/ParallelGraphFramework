@@ -27,8 +27,7 @@ import java.util.function.DoubleBinaryOperator;
 /**
  * PageRank Algorithm Implementation
  **/
-public class PersonalPageRankDriver
-{
+public class PersonalPageRankDriver {
     final int numThreads;
     final int iteration;
     final int taskSize;
@@ -148,8 +147,7 @@ public class PersonalPageRankDriver
                 seedSet[i] = Integer.parseInt(seed);
                 i++;
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         Arrays.sort(seedSet);
@@ -167,8 +165,7 @@ public class PersonalPageRankDriver
                     out.println(-1);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
     }

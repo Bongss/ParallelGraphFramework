@@ -10,23 +10,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class BFSSequentialDriver
-{
+public class BFSSequentialDriver {
     int nodeCapacity;
 
     Graph<BFSSharedData> graph;
     BFSSharedData sharedDataObject;
 
-    public BFSSequentialDriver(Graph<BFSSharedData> graph)
-    {
+    public BFSSequentialDriver(Graph<BFSSharedData> graph) {
         this.graph = graph;
 
         sharedDataObject = graph.getSharedDataObject();
         nodeCapacity = graph.getMaxNodeId() + 1;
     }
 
-    public void run(int startNodeId)
-    {
+    public void run(int startNodeId) {
         int currentLevel = 1;
         sharedDataObject.setVertexValue(startNodeId, currentLevel);
         TIntLinkedListQueue activeQueue = new TIntLinkedListQueue();
@@ -53,25 +50,22 @@ public class BFSSequentialDriver
         System.err.println("[DEBUG] LEVEL : " + currentLevel);
     }
 
-    public void writeBFSValues(String outputFile)
-    {
+    public void writeBFSValues(String outputFile) {
         try (FileWriter fw = new FileWriter(outputFile, false); BufferedWriter bw = new BufferedWriter(fw); PrintWriter out = new PrintWriter(bw)) {
             for (int i = 0; i < nodeCapacity; i++) {
                 Node node = graph.getNode(i);
                 if (node != null) {
                     out.println(sharedDataObject.getVertexValue(i));
-                }
-                else {
+                } else {
                     out.println(-1);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
 
         }
     }
-    public void reset()
-    {
+
+    public void reset() {
         sharedDataObject.reset();
     }
 }
