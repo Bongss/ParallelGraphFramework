@@ -20,6 +20,7 @@ public class BFSDriver {
     int numTasks;
     int taskSize;
     int nodeCapacity;
+    int threshold; // For test
 
     Graph<BFSSharedData> graph;
     BFSSharedData sharedDataObject;
@@ -30,15 +31,15 @@ public class BFSDriver {
     Task[] workTasks;
     Task[] barrierTasks;
 
-    public BFSDriver(Graph<BFSSharedData> graph, int numThreads) {
+    public BFSDriver(Graph<BFSSharedData> graph, int numThreads, int threshold) {
         this.graph = graph;
         this.numThreads = numThreads;
+        this.threshold = threshold;
 
         sharedDataObject = graph.getSharedDataObject();
         taskSize = 1 << graph.getExpOfTaskSize();
         nodeCapacity = graph.getMaxNodeId() + 1;
         numTasks = (nodeCapacity + taskSize - 1) / taskSize;
-
         init();
     }
 
@@ -59,7 +60,7 @@ public class BFSDriver {
             if (endRange > nodeCapacity) {
                 endRange = nodeCapacity;
             }
-            workTasks[i] = new Task(new BFSExecutor(beginRange, endRange, graph));
+            workTasks[i] = new Task(new BFSExecutor(beginRange, endRange, graph, threshold));
         }
 
         for (int i = 0; i < numThreads; i++) {

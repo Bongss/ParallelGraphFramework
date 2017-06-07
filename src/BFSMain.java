@@ -16,6 +16,7 @@ public class BFSMain {
         int asyncThreshold = Integer.parseInt(args[2]);
         int expOfTaskSize = Integer.parseInt(args[3]);
         String outputFile = args[4];
+        int threshold = Integer.parseInt(args[5]);
 
         Graph<BFSSharedData> graph = Graph.getInstance(expOfTaskSize, isDirected, isWeighted);
 
@@ -25,7 +26,7 @@ public class BFSMain {
         graph.loadFinalize(asyncThreshold, BFSSharedData.class, isInDegreeSorted);
         System.err.println("[DEBUG] Loading Time : " + (System.currentTimeMillis() - start) / 1000.0);
 
-        BFSDriver driver = new BFSDriver(graph, numThreads);
+        BFSDriver driver = new BFSDriver(graph, numThreads, threshold);
 
         /**     BFS Start      **/
         double timeSum = 0;
