@@ -13,6 +13,7 @@ public class PageRankSharedData {
 
     AtomicDoubleArray[] tables;
 
+    long[] highDegreePageRank;
     int tablePos = 0;
     final int nodeCapacity;
     final int asyncThreshold;
@@ -23,6 +24,7 @@ public class PageRankSharedData {
     }
 
     public final void initializeTable() {
+        highDegreePageRank = new long[100];
         tables = new AtomicDoubleArray[2];
         for (int i = 0; i < tables.length; i++) {
             tables[i] = new AtomicDoubleArray(nodeCapacity);
@@ -51,6 +53,18 @@ public class PageRankSharedData {
 
     public final void atomicUpdateNextTable(int entry, double value) {
         tables[1].getAndAccumulate(entry, value, updateFunction);
+    }
+
+    public void setHighDegreePageRank(int entry, int value) {
+        highDegreePageRank[entry] = value;
+    }
+
+    public void updateHighDegreePageRank(int maxInDegreeIndex) {
+        long sum = 0;
+        for (int i = 0; i < highDegreePageRank.length; i++) {
+            sum += highDegreePageRank[i];
+        }
+        tables[1].asyncGetAndAccumulate(maxInDegreeIndex, sum, updateFunction);
     }
 
     public final void swapConsecutiveTwoTables() {

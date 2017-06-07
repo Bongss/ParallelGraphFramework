@@ -51,7 +51,7 @@ public class PageRankMain {
                 timeSum += (elapsedTime[i] / 1000.0);
             }
         }
-//        driver.writePageRanks(outputFile);
+        driver.writePageRanks(outputFile);
         System.err.println("[DEBUG] PageRank Complete ");
         String averageTime = String.format("%.3f", (timeSum / (numRun - jitRun)));
         System.out.println(averageTime);

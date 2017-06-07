@@ -21,6 +21,7 @@ public class Graph<T> {
     int numEdges;
     int maxNodeId;
     int numTasks;
+    int maxInDegreeIndex;
 
     Graph(int expOfTaskSize, boolean isDirected, boolean isWeighted) {
         this.expOfTaskSize = expOfTaskSize;
@@ -160,11 +161,16 @@ public class Graph<T> {
     // adjList descending sort based on indegree
 
     void adjListSort(int asyncThreshold) {
+        int maxDegree = 0;
         for (int i = 0; i <= maxNodeId; i++) {
             if (nodes[i] == null) {
                 continue;
             }
 
+            if (maxDegree < nodes[i].getInDegree()) {
+                maxDegree = nodes[i].getInDegree();
+                maxInDegreeIndex = i;
+            }
             int neighborListSize = nodes[i].neighborListSize();
 
             for (int j = 0; j < neighborListSize - 1; j++) {
@@ -200,6 +206,9 @@ public class Graph<T> {
         }
     }
 
+    public int getMaxInDegreeIndex() {
+        return maxInDegreeIndex;
+    }
     public int getExpOfTaskSize() {
         return expOfTaskSize;
     }

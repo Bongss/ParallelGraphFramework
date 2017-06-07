@@ -27,6 +27,7 @@ public class PageRankDriver {
     int taskSize;
     int iteration;
     int nodeCapacity;
+    int maxInDegreeIndex;
     double dampingFactor;
 
     Graph<PageRankSharedData> graph;
@@ -48,6 +49,7 @@ public class PageRankDriver {
         this.numThreads = numThreads;
         this.taskSize = 1 << graph.getExpOfTaskSize();
         this.iteration = iteration;
+        this.maxInDegreeIndex = graph.getMaxInDegreeIndex();
         sharedDataObject = graph.getSharedDataObject();
         nodeCapacity = graph.getMaxNodeId() + 1;
         numTasks = (nodeCapacity + taskSize - 1) / taskSize;
@@ -63,7 +65,7 @@ public class PageRankDriver {
         barrierTasks = new Task[numThreads];
         exitBarrierTasks = new Task[numThreads];
 
-        barriers = new CyclicBarrier(numThreads);
+        barriers = new CyclicBarrier(numThreads + 1);
         exitBarriers = new CyclicBarrier(numThreads + 1);
 
         taskQueue = new LinkedBlockingQueue<>();
@@ -80,12 +82,11 @@ public class PageRankDriver {
             }
 
             initTasks[i] = new Task(new PageRankInit(beginRange, endRange, graph, dampingFactor));
-            workTasks[i] = new Task(new PageRankExecutor(beginRange, endRange, graph, dampingFactor));
+            workTasks[i] = new Task(new PageRankExecutor(beginRange, endRange, graph, dampingFactor, maxInDegreeIndex));
         }
 
         for (int i = 0; i < numThreads; i++) {
             barrierTasks[i] = new Task(new BarrierTask(barriers));
-            exitBarrierTasks[i] = new Task(new BarrierTask(exitBarriers));
         }
     }
 
@@ -93,17 +94,20 @@ public class PageRankDriver {
         boolean isFirst = true;
         for (int i = 0; i < iteration; i++) {
             pushTasks(initTasks);
-            pushTasks(exitBarrierTasks);
-            exitBarriers.await();
+            pushTasks(barrierTasks);
+            barriers.await();
             if (!isFirst) {
                 sharedDataObject.initializedCallback();
             }
             pushTasks(workTasks);
             pushTasks(barrierTasks);
+            barriers.await();
+            sharedDataObject.updateHighDegreePageRank(maxInDegreeIndex);
+
             isFirst = false;
         }
-        pushTasks(exitBarrierTasks);
-        exitBarriers.await();
+        pushTasks(barrierTasks);
+        barriers.await();
     }
 
     public void pushTasks(Task[] tasks) {

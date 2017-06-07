@@ -13,12 +13,14 @@ public class PageRankExecutor implements GraphAlgorithmInterface {
     int beginRange;
     int endRange;
     double dampingFactor;
+    int maxInDegreeIndex;
 
-    PageRankExecutor(int beginRange, int endRange, Graph<PageRankSharedData> graph, double dampingFactor) {
+    PageRankExecutor(int beginRange, int endRange, Graph<PageRankSharedData> graph, double dampingFactor, int maxInDegreeIndex) {
         this.graph = graph;
         this.dampingFactor = dampingFactor;
         this.beginRange = beginRange;
         this.endRange = endRange;
+        this.maxInDegreeIndex = maxInDegreeIndex;
         sharedDataObject = graph.getSharedDataObject();
     }
 
@@ -43,6 +45,10 @@ public class PageRankExecutor implements GraphAlgorithmInterface {
 
             for (int j = 0; j < neighborListSize; j++) {
                 int destId = srcNode.getNeighbor(j);
+
+                if (j == maxInDegreeIndex) {
+                    sharedDataObject.setHighDegreePageRank((int) Thread.currentThread().getId(), maxInDegreeIndex);
+                }
 
                 if (j < thresholdIndex) {
                     sharedDataObject.atomicUpdateNextTable(destId, scatterPageRank);
