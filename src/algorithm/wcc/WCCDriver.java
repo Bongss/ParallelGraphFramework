@@ -22,6 +22,7 @@ public class WCCDriver {
     final int numTasks;
 
     boolean isDone;
+    int threshold;
 
     Graph<WCCSharedData> graph;
     LinkedBlockingQueue<Task> taskQueue;
@@ -32,10 +33,11 @@ public class WCCDriver {
     Task[] workerTasks;
     Task[] barrierTasks;
 
-    public WCCDriver(Graph<WCCSharedData> graph, int numThreads) {
+    public WCCDriver(Graph<WCCSharedData> graph, int numThreads, int threshold) {
         this.graph = graph;
         this.numThreads = numThreads;
         this.taskSize = 1 << graph.getExpOfTaskSize();
+        this.threshold = threshold;
         sharedDataObject = graph.getSharedDataObject();
         nodeCapacity = graph.getMaxNodeId() + 1;
         numTasks = (nodeCapacity + taskSize - 1) / taskSize;
@@ -62,7 +64,7 @@ public class WCCDriver {
                 endRange = nodeCapacity;
             }
 
-            workerTasks[i] = new Task(new WCCExecutor(beginRange, endRange, graph));
+            workerTasks[i] = new Task(new WCCExecutor(beginRange, endRange, graph, threshold));
         }
 
         for (int i = 0; i < numThreads; i++) {
@@ -129,7 +131,7 @@ public class WCCDriver {
             for (int j = 0; j < nodeCapacity; j++) {
                 Node node = graph.getNode(j);
                 if (node != null) {
-                    out.println(sharedDataObject.getCurCompId(j));
+                    out.println(sharedDataObject.getNextCompId(j));
                 } else {
                     out.println(-1);
                 }

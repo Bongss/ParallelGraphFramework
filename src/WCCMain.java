@@ -16,6 +16,7 @@ public class WCCMain {
         int asyncThreshold = Integer.parseInt(args[2]);
         int expOfTaskSize = Integer.parseInt(args[3]);
         String outputFile = args[4];
+        int threshold = Integer.parseInt(args[5]);
 
         Graph<WCCSharedData> graph = Graph.getInstance(expOfTaskSize, isDirected, isWeighted);
 
@@ -25,7 +26,7 @@ public class WCCMain {
         graph.loadFinalize(asyncThreshold, WCCSharedData.class, isInDegreeSorted);
         System.err.println("[DEBUG] Loading Time : " + (System.currentTimeMillis() - start) / 1000.0);
 
-        WCCDriver driver = new WCCDriver(graph, numThreads);
+        WCCDriver driver = new WCCDriver(graph, numThreads, threshold);
 
         /**     WCC Start      **/
         double timeSum = 0;

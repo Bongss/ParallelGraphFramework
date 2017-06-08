@@ -10,12 +10,14 @@ public class WCCExecutor implements GraphAlgorithmInterface {
     final WCCSharedData sharedDataObject;
     final int beginRange;
     final int endRange;
+    int threshold;
 
-    public WCCExecutor(int beginRange, int endRange, Graph<WCCSharedData> graph) {
+    public WCCExecutor(int beginRange, int endRange, Graph<WCCSharedData> graph, int threshold) {
         this.beginRange = beginRange;
         this.endRange = endRange;
         this.graph = graph;
         sharedDataObject = graph.getSharedDataObject();
+        this.threshold = threshold;
     }
 
     @Override
@@ -25,6 +27,12 @@ public class WCCExecutor implements GraphAlgorithmInterface {
             Node srcNode = graph.getNode(i);
 
             if (srcNode == null) {
+                continue;
+            }
+
+            int neighborListSize = srcNode.neighborListSize();
+
+            if (neighborListSize < threshold) {
                 continue;
             }
 
@@ -39,7 +47,6 @@ public class WCCExecutor implements GraphAlgorithmInterface {
 
             sharedDataObject.setCurComponentId(i, nextCompId);
 
-            int neighborListSize = srcNode.neighborListSize();
 
             for (int j = 0; j < neighborListSize; j++) {
                 int destId = srcNode.getNeighbor(j);

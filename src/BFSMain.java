@@ -17,6 +17,7 @@ public class BFSMain {
         int expOfTaskSize = Integer.parseInt(args[3]);
         String outputFile = args[4];
         int threshold = Integer.parseInt(args[5]);
+        int startNode = Integer.parseInt(args[6]);
 
         Graph<BFSSharedData> graph = Graph.getInstance(expOfTaskSize, isDirected, isWeighted);
 
@@ -38,7 +39,7 @@ public class BFSMain {
         for (int i = 0; i < numRun; i++) {
             driver.reset();
             start = System.currentTimeMillis();
-            driver.run();
+            driver.run(startNode);
             elapsedTime[i] = System.currentTimeMillis() - start;
             System.err.println("[DEBUG] elapsed time for iteration" + i + " : " + ((elapsedTime[i]) / (1000.0)));
 

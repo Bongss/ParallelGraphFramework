@@ -68,9 +68,9 @@ public class BFSDriver {
         }
     }
 
-    public void run() throws BrokenBarrierException, InterruptedException {
+    public void run(int startNode) throws BrokenBarrierException, InterruptedException {
         boolean isTermination;
-        After3level(0); // input : startNode Id, Sequential Process 1,2,3
+        After3level(startNode); // input : startNode Id, Sequential Process 1,2,3
         sharedDataObject.setCurrentBFSLevel(4);
 
         while (true) {
