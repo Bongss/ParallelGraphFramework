@@ -1,0 +1,39 @@
+<project name="PageRank" basedir="." default="main">
+    <property name="home.dir"        value="/home/bongki"/>
+    <property name="project.dir"    value="${home.dir}/Dropbox/CodeRepository/jung_bong"/>
+    <property name="src.dir"        value="${project.dir}/src"/>
+    <property name="build.dir"      value="${project.dir}/build"/>
+    <property name="classes.dir"    value="${project.dir}/classes"/>
+    <property name="jar.dir"        value="${project.dir}/jar"/>
+    <property name="lib.dir"        value="${project.dir}/lib"/>
+    <property name="graph.data.dir" value="${home.dir}/GraphTestFiles"/>
+    <property name="main-class"     value="PageRankMain"/>
+    
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false">
+        <compilerarg value="-XDignore.symbol.file"/>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}"/>
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main-class}"/>
+            </manifest>
+            <zipgroupfileset dir="${lib.dir}" includes="**/*.jar"/>
+        </jar>
+     </target>
+     <target name="clean-build" depends="clean,jar"/>
+
+     <target name="main" depends="clean,jar"/>
+</project>
